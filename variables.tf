@@ -678,6 +678,7 @@ variable "egress_ipv6_protocol" {
   default     = "-1"
 }
 
+
 variable "egress_ipv6_cidr_block" {
   description = " List of CIDR blocks. Cannot be specified with source_security_group_id or self."
   type        = list(string)
