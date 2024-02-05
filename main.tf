@@ -371,6 +371,7 @@ resource "aws_route53_record" "default" {
 ##----------------------------------------------------------------------------------
 ## Below Provides an EC2 Spot Instance Request resource. This allows instances to be requested on the spot market..
 ##----------------------------------------------------------------------------------
+
 resource "aws_spot_instance_request" "default" {
   count                                = var.enable && var.spot_instance_enabled ? var.spot_instance_count : 0
   spot_price                           = var.spot_price
