@@ -29,6 +29,7 @@ module "spot-ec2" {
   subnet_ids = ["subnet-xxxxxxxx"]
 
   #IAM
+
   iam_instance_profile = "iam-profile-xxxxxxxxx"
 
   #Root Volume

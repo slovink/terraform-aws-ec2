@@ -15,6 +15,7 @@ module "ec2" {
   ssh_allowed_ports = [22]
 
   #instance
+
   instance_count = 1
   ami            = "ami-xxxxxxxxxx"
   instance_type  = "t2.micro"

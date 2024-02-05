@@ -8,6 +8,7 @@ output "spot_tags" {
   description = "The instance tags."
 }
 
+
 output "spot_bid_status" {
   value       = module.spot-ec2.spot_bid_status
   description = "The current bid status of the Spot Instance Request"
