@@ -1,15 +1,36 @@
-# Terraform-aws-ec2
+<p align="center"> <img src="https://user-images.githubusercontent.com/50652676/62349836-882fef80-b51e-11e9-99e3-7b974309c7e3.png" width="100" height="100"></p>
 
-# Terraform AWS Cloud EC2 Module
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Usage](#usage)
-- [Examples](#examples)
-- [License](#license)
-- [Author](#Author)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
+<h1 align="center">
+    Terraform AWS Ec2
+</h1>
+
+<p align="center" style="font-size: 1.2rem;">
+    Terraform module to create Ec2 resource on AWS.
+     </p>
+
+<p align="center">
+
+<a href="https://www.terraform.io">
+  <img src="https://img.shields.io/badge/Terraform-v1.7.0-green" alt="Terraform">
+</a>
+<a href="https://github.com/slovink/terraform-aws-ec2/blob/main/LICENSE">
+  <img src="https://img.shields.io/badge/License-APACHE-blue.svg" alt="Licence">
+</a>
+
+
+
+</p>
+<p align="center">
+
+<a href='https://www.facebook.com/Slovink.in=https://github.com/slovink/terraform-ec2'>
+  <img title="Share on Facebook" src="https://user-images.githubusercontent.com/50652676/62817743-4f64cb80-bb59-11e9-90c7-b057252ded50.png" />
+</a>
+<a href='https://www.linkedin.com/company/101534993/admin/feed/posts/=https://github.com/slovink/terraform-ec2'>
+  <img title="Share on LinkedIn" src="https://user-images.githubusercontent.com/50652676/62817742-4e339e80-bb59-11e9-87b9-a1f68cae1049.png" />
+</a>
+
+
 
 ## Introduction
 This Terraform module creates an AWS Elastic Compute Cloud (EC2) along with additional configuration options.
@@ -23,8 +44,7 @@ To use this module, you should have Terraform installed and configured for AWS. 
 ```hcl
 # Create EC2 instances
 module "ec2" {
-  source      = "./../../"
-  version     = "1.0.2"
+  source      = "https://github.com/slovink/terraform-aws-ec2.git?ref=v1.0.0"
   name        = "ec2"
   environment = local.environment
 
@@ -35,7 +55,7 @@ module "ec2" {
   instance_count    = 1
   ami               = "ami-01dd271720c1ba44f"
   instance_type     = "t2.micro"
-  public_key        = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCudIC/l8ZCHUMv44k0eLjG6Dy3ByAIcwXN0acQ2RzzNTY/VnTut5UXlADEv8QErytuf5Q5sMmxJIEaqXeX+A2DskmZ9SizshU0nx95T52UU+7DF6zesFeWf2OhxP+J8XIHgnpBkBIglydRR8hUOktz0fqemUdRJ6nkpQzsfVnCOn1WF5eazJxHYQHmABrOy371Cxbm11dMXqiWvg+hrnUxl1rwRwClBaOjlp3vVmpcnkpdp4mC7WGiT/UZpc+NK4S3Kc2GwkHvcGANllsyJSSb34JPFnoWgJ4YKLwxtaWkLW3dnIhDrhARE7TcdW+OxiIgsl88TMyAMESr9FdO7G7ysdTLzKP6IPoTxmDJI+OT6QJLIh3KqmVrQlEHlnP8QeOMrF65bUjmg+ZgkCq1J8o/5hAKRvBfm2Mq+3lFB8h3v/7dpceRrzzajpMTYlJFHBcZ4Gl6mUl/4KZDhlicv8vAw5jSomYZ3tlnvapF1/YcQJzRGOP+JJTOVr1VV+FQEn8= vinod@vinod"
+  public_key        = "ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx= vinod@vinod"
 
   # Networking
   subnet_ids = tolist(module.public_subnets.public_subnet_id)
@@ -71,8 +91,7 @@ This example demonstrates how to create various AWS resources using the provided
 
 ```hcl
 module "spot-ec2" {
-  source      = "./../../."
-  version     = "1.0.2"
+  source      = "https://github.com/slovink/terraform-aws-ec2.git?ref=v1.0.0"
   name        = "ec2"
   environment = "test"
   vpc_id            = module.vpc.vpc_id
@@ -80,7 +99,7 @@ module "spot-ec2" {
   ssh_allowed_ports = [22]
 
   #Keypair
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCudIC/l8ZCHUMv44k0eLjG6Dy3ByAIcwXN0acQ2RzzNTY/VnTut5UXlADEv8QErytuf5Q5sMmxJIEaqXeX+A2DskmZ9SizshU0nx95T52UU+7DF6zesFeWf2OhxP+J8XIHgnpBkBIglydRR8hUOktz0fqemUdRJ6nkpQzsfVnCOn1WF5eazJxHYQHmABrOy371Cxbm11dMXqiWvg+hrnUxl1rwRwClBaOjlp3vVmpcnkpdp4mC7WGiT/UZpc+NK4S3Kc2GwkHvcGANllsyJSSb34JPFnoWgJ4YKLwxtaWkLW3dnIhDrhARE7TcdW+OxiIgsl88TMyAMESr9FdO7G7ysdTLzKP6IPoTxmDJI+OT6QJLIh3KqmVrQlEHlnP8QeOMrF65bUjmg+ZgkCq1J8o/5hAKRvBfm2Mq+3lFB8h3v/7dpceRrzzajpMTYlJFHBcZ4Gl6mUl/4KZDhlicv8vAw5jSomYZ3tlnvapF1/YcQJzRGOP+JJTOVr1VV+FQEn8= vinod@vinod"
+  public_key = "ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx= vinod@vinod"
   # Spot-instance"
   spot_price                          = "0.3"
   spot_wait_for_fulfillment           = true
@@ -113,6 +132,12 @@ module "spot-ec2" {
 }
 ```
 
+
+## About us
+At https://slovink.com/ we offer expert guidance, implementation support and services to help organisations accelerate their journey to the slovi. Our
+services include docker and container orchestration, slov migration and adoption, infrastructure automation, application modernisation and
+remediation, and performance engineering.
+
 ## Examples
 For detailed examples on how to use this module, please refer to the [Examples](https://github.com/slovink/terraform-aws-ec2/tree/master/example) directory within this repository.
 
@@ -129,14 +154,14 @@ Replace **MIT** and **slovink** with the appropriate license and your informatio
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4, < 1.7.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.13.1 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.32.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.13.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.32.1 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
 
 ## Modules
