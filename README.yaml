@@ -1,0 +1,184 @@
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name : Terraform vpc
+
+# License of this project
+license: "APACHE"
+
+# Canonical GitHub repo
+github_repo: git@github.com:slovink/terraform-aws-vpc.git
+
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v1.7.0-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "https://github.com/slovink/terraform-aws-ec2/blob/main/LICENSE"
+  - name: "tfsec"
+    image: "https://github.com/slovink/terraform-aws-ec2/actions/workflows/tfsec.yml/badge.svg"
+    url: "https://github.com/slovink/terraform-aws-ec2/tree/main/.github/workflows/tfsec.yml"
+
+
+
+#  description of this project
+description: |-
+  This terraform module is designed to generate consistent label names and tags for resources. You can use terraform-vpc to implement a strict naming convention.
+
+
+# extra content
+include:
+  - "terraform.md"
+# How to use this project
+usage : |-
+  ### complect Example
+  ```hcl
+      module "ec2" {
+     source      = "https://github.com/slovink/terraform-aws-ec2.git?ref=v1.0.0"
+     name        = "ec2"
+     environment = local.environment
+
+     ##----------------------------------------------------------------------------------
+     ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
+     ##----------------------------------------------------------------------------------
+     #tfsec:aws-ec2-no-public-ingress-sgr
+     vpc_id            = module.vpc.id
+     ssh_allowed_ip    = ["0.0.0.0/0"]
+     ssh_allowed_ports = [22]
+     #Instance
+     instance_count = 1
+     ami            = "ami-xxxxxxxxx"
+     instance_type  = "t2.nano"
+
+     #Keypair
+     public_key = ""
+
+     #Networking
+     subnet_ids = tolist(module.public_subnets.public_subnet_id)
+
+     #IAM
+     iam_instance_profile = module.iam-role.name
+
+     #Root Volume
+     root_block_device = [
+    {
+      volume_type           = "gp2"
+      volume_size           = 15
+      delete_on_termination = true
+    }
+    ]
+
+     #EBS Volume
+     ebs_volume_enabled = true
+     ebs_volume_type    = "gp2"
+     ebs_volume_size    = 30
+
+     #Tags
+     instance_tags = { "snapshot" = true }
+
+     #Mount EBS With User Data
+     user_data = file("user-data.sh")
+    }
+  ```
+
+  ### default
+  ```hcl
+     module "ec2" {
+      source      = "https://github.com/slovink/terraform-aws-ec2.git?ref=v1.0.0"
+      name        = "ec2-yada"
+      environment = "test"
+
+     ##----------------------------------------------------------------------------------
+     ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
+     ##----------------------------------------------------------------------------------
+     #tfsec:aws-ec2-no-public-ingress-sgr
+     vpc_id            = ""
+     ssh_allowed_ip    = ["0.0.0.0/0"]
+     ssh_allowed_ports = [22]
+
+     #instance
+     instance_count = 1
+     ami            = "ami-xxxxxxxxxx"
+     instance_type  = "t2.micro"
+
+     #Networking
+     subnet_ids = ["subnet-xxxxxxxxxxx"]
+
+     #Keypair
+     public_key = "ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx vinod@vinod"
+
+     #IAM
+     iam_instance_profile = "ami-xxxxxxxxxxx"
+
+     #Root Volume
+     root_block_device = [
+     {
+       volume_type           = "gp2"
+       volume_size           = 15
+      delete_on_termination = true
+     }
+     ]
+     #Tags
+     instance_tags = { "snapshot" = true }
+
+     }
+  ```
+
+  ### spot-instance
+  ```hcl
+     module "spot-ec2" {
+      source      = "https://github.com/slovink/terraform-aws-ec2.git?ref=v1.0.0"
+      name        = "ec2"
+      environment = "test"
+
+      ####----------------------------------------------------------------------------------
+      ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
+      ####----------------------------------------------------------------------------------
+      vpc_id            = "vpc-xxxxxxxx"
+      ssh_allowed_ip    = ["0.0.0.0/0"]
+      ssh_allowed_ports = [22]
+
+      #Keypair
+      public_key = ""
+
+      # Spot-instance
+      spot_price                          = "0.3"
+      spot_wait_for_fulfillment           = true
+      spot_type                           = "persistent"
+      spot_instance_interruption_behavior = "terminate"
+      spot_instance_enabled               = true
+      spot_instance_count                 = 1
+      instance_type                       = "c4.xlarge"
+
+      #Networking
+      subnet_ids = ["subnet-xxxxxxxx"]
+
+     #IAM
+
+     iam_instance_profile = "iam-profile-xxxxxxxxx"
+
+     #Root Volume
+     root_block_device = [
+     {
+      volume_type           = "gp2"
+      volume_size           = 15
+      delete_on_termination = true
+    }
+    ]
+
+    #EBS Volume
+    ebs_volume_enabled = true
+    ebs_volume_type    = "gp2"
+    ebs_volume_size    = 30
+
+    #Tags
+    spot_instance_tags = { "snapshot" = true }
+
+   }
+  ```
