@@ -39,7 +39,7 @@ To use this module, you should have Terraform installed and configured for AWS. 
 
 # Examples
 
-# Example: default
+# Example: complect
 
 ```hcl
 # Create EC2 instances
@@ -48,22 +48,28 @@ module "ec2" {
   name        = "ec2"
   environment = local.environment
 
-  # Define security group and instance details
+  ##----------------------------------------------------------------------------------
+  ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
+  ##----------------------------------------------------------------------------------
+  #tfsec:aws-ec2-no-public-ingress-sgr
   vpc_id            = module.vpc.id
   ssh_allowed_ip    = ["0.0.0.0/0"]
   ssh_allowed_ports = [22]
-  instance_count    = 1
-  ami               = "ami-01dd271720c1ba44f"
-  instance_type     = "t2.micro"
-  public_key        = "ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx= vinod@vinod"
+  #Instance
+  instance_count = 1
+  ami            = "ami-xxxxxxxxx"
+  instance_type  = "t2.nano"
 
-  # Networking
+  #Keypair
+  public_key = ""
+
+  #Networking
   subnet_ids = tolist(module.public_subnets.public_subnet_id)
 
-  # IAM
+  #IAM
   iam_instance_profile = module.iam-role.name
 
-  # Root Volume
+  #Root Volume
   root_block_device = [
     {
       volume_type           = "gp2"
@@ -72,20 +78,67 @@ module "ec2" {
     }
   ]
 
-  # EBS Volume
+  #EBS Volume
   ebs_volume_enabled = true
   ebs_volume_type    = "gp2"
   ebs_volume_size    = 30
 
-  # Tags
+  #Tags
   instance_tags = { "snapshot" = true }
 
-  # Mount EBS With User Data
+  #Mount EBS With User Data
   user_data = file("user-data.sh")
 }
-```
+  ```
 
 This example demonstrates how to create various AWS resources using the provided modules. Adjust the input values to suit your specific requirements.
+
+
+
+###  Example: default
+  ```hcl
+     module "ec2" {
+      source      = "https://github.com/slovink/terraform-aws-ec2.git?ref=v1.0.0"
+      name        = "ec2-yada"
+      environment = "test"
+
+     ##----------------------------------------------------------------------------------
+     ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
+     ##----------------------------------------------------------------------------------
+     #tfsec:aws-ec2-no-public-ingress-sgr
+     vpc_id            = ""
+     ssh_allowed_ip    = ["0.0.0.0/0"]
+     ssh_allowed_ports = [22]
+
+     #instance
+     instance_count = 1
+     ami            = "ami-xxxxxxxxxx"
+     instance_type  = "t2.micro"
+
+     #Networking
+     subnet_ids = ["subnet-xxxxxxxxxxx"]
+
+     #Keypair
+     public_key = "ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx vinod@vinod"
+
+     #IAM
+     iam_instance_profile = "ami-xxxxxxxxxxx"
+
+     #Root Volume
+     root_block_device = [
+     {
+       volume_type           = "gp2"
+       volume_size           = 15
+      delete_on_termination = true
+     }
+     ]
+     #Tags
+     instance_tags = { "snapshot" = true }
+
+     }
+  ```
+
+
 
  # Example: spot_instance
 
@@ -168,7 +221,7 @@ Replace **MIT** and **slovink** with the appropriate license and your informatio
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_labels"></a> [labels](#module\_labels) | git@github.com:slovink/terraform-aws-labels.git | 1.0.0 |
+| <a name="module_labels"></a> [labels](#module\_labels) | https://github.com/slovink/terraform-aws-labels.git | 1.0.0 |
 
 ## Resources
 
